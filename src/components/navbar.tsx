@@ -7,18 +7,18 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-4xl rounded-2xl px-8 py-4 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+      className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl rounded-full px-6 py-5 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
       style={{
-        background: "rgba(255, 255, 255, 0.55)",
+        background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(32px)",
         WebkitBackdropFilter: "blur(32px)",
-        border: "1px solid rgba(0, 0, 0, 0.06)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+        border: "1px solid rgba(0, 0, 0, 0.12)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
       }}
     >
       {/* Logo */}
       <a href="#" className="flex items-center gap-2.5 shrink-0">
-        <svg width="26" height="26" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="32" height="32" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#nav-clip)">
             <path d="M96 96L122.93 3.85L140.64 11.01Z" fill="#4a90e2" />
             <path d="M96 96L85.61 0.56L104.72 0.4Z" fill="#4a90e2" />
@@ -35,11 +35,11 @@ export default function Navbar() {
             <clipPath id="nav-clip"><rect width="192" height="192" /></clipPath>
           </defs>
         </svg>
-        <span className="text-gray-900 font-normal text-lg tracking-tight hidden sm:inline">sckry</span>
+        <span className="text-gray-900 font-medium text-xl tracking-tight hidden sm:inline">sckry</span>
       </a>
 
       {/* Desktop nav links */}
-      <div className="hidden md:flex items-center gap-8 ml-12 text-[13px] font-medium tracking-wide uppercase text-gray-400">
+      <div className="hidden md:flex items-center gap-6 ml-8 text-sm font-medium tracking-wide text-gray-400">
         <a href="#demo" className="hover:text-gray-900 transition-colors duration-200">Demo</a>
         <a href="#pricing" className="hover:text-gray-900 transition-colors duration-200">Pricing</a>
       </div>

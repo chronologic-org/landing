@@ -81,13 +81,13 @@ export default function QueryInput({ onSubmit }: Props) {
 
   return (
     <div
-      className="rounded-2xl px-7 py-5 flex items-center gap-4 w-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:scale-[1.01] cursor-text"
+      className="rounded-full px-7 py-6 flex items-center gap-4 w-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:scale-[1.01] cursor-text"
       style={{
-        background: "rgba(255, 255, 255, 0.6)",
+        background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
-        border: "1px solid rgba(0,0,0,0.08)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+        border: "1px solid rgba(0,0,0,0.12)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)",
       }}
     >
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
