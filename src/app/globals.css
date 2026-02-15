@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import "glassmorphic/glassmorphic.css";
+
+@font-face {
+  font-family: "HelveticaNeueLTPro-Bd";
+  src: local("HelveticaNeueLTPro-Bd"), local("Helvetica Neue LT Pro Bold"), local("HelveticaNeue-Bold");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-background: #f3f4f6;
+  --color-foreground: #171717;
+  --color-accent: #5885ec;
+  --font-sans: "HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f3f4f6;
+  color: var(--color-foreground);
+  font-family: "HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Blinking caret for typewriter effect */
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 0.8s step-end infinite;
+}
+
+/* Make placeholder text visible in glassmorphic inputs */
+input::placeholder {
+  color: rgba(0, 0, 0, 0.3) !important;
+  opacity: 1 !important;
+}

@@ -1,0 +1,112 @@
+"use client"
+
+import { useState } from "react"
+
+export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  return (
+    <nav
+      className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-4xl rounded-2xl px-8 py-4 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+      style={{
+        background: "rgba(255, 255, 255, 0.55)",
+        backdropFilter: "blur(32px)",
+        WebkitBackdropFilter: "blur(32px)",
+        border: "1px solid rgba(0, 0, 0, 0.06)",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+      }}
+    >
+      {/* Logo */}
+      <a href="#" className="flex items-center gap-2.5 shrink-0">
+        <svg width="26" height="26" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#nav-clip)">
+            <path d="M96 96L122.93 3.85L140.64 11.01Z" fill="#4a90e2" />
+            <path d="M96 96L85.61 0.56L104.72 0.4Z" fill="#4a90e2" />
+            <path d="M96 96L0.56 106.39L0.4 87.28Z" fill="#4a90e2" />
+            <path d="M96 96L11.8 142.12L4.34 124.53Z" fill="#4a90e2" />
+            <path d="M96 96L35.86 170.83L22.23 157.44Z" fill="#4a90e2" />
+            <path d="M96 96L69.07 188.15L51.36 180.99Z" fill="#4a90e2" />
+            <path d="M96 96L106.39 191.44L87.28 191.6Z" fill="#4a90e2" />
+            <path d="M96 96L191.44 85.61L191.6 104.72Z" fill="#4a90e2" />
+            <path d="M96 96L180.2 49.88L187.66 67.47Z" fill="#4a90e2" />
+            <path d="M96 96L156.14 21.17L169.77 34.56Z" fill="#4a90e2" />
+          </g>
+          <defs>
+            <clipPath id="nav-clip"><rect width="192" height="192" /></clipPath>
+          </defs>
+        </svg>
+        <span className="text-gray-900 font-normal text-lg tracking-tight hidden sm:inline">sckry</span>
+      </a>
+
+      {/* Desktop nav links */}
+      <div className="hidden md:flex items-center gap-8 ml-12 text-[13px] font-medium tracking-wide uppercase text-gray-400">
+        <a href="#demo" className="hover:text-gray-900 transition-colors duration-200">Demo</a>
+        <a href="#pricing" className="hover:text-gray-900 transition-colors duration-200">Pricing</a>
+      </div>
+
+      {/* Spacer */}
+      <div className="flex-1" />
+
+      {/* Desktop auth buttons */}
+      <div className="hidden md:flex items-center gap-3">
+        <a
+          href="#"
+          className="text-sm text-gray-600 hover:text-gray-900 transition-colors px-5 py-2 rounded-xl font-medium"
+          style={{
+            background: "rgba(0, 0, 0, 0.04)",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
+          }}
+        >
+          Log In
+        </a>
+        <a
+          href="#"
+          className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-5 py-2 rounded-xl font-semibold"
+        >
+          Sign Up
+        </a>
+      </div>
+
+      {/* Mobile hamburger */}
+      <button
+        className="md:hidden ml-auto text-gray-400 hover:text-gray-900 transition-colors"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label="Toggle menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          {mobileOpen ? (
+            <>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </>
+          ) : (
+            <>
+              <line x1="3" y1="7" x2="21" y2="7" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="17" x2="21" y2="17" />
+            </>
+          )}
+        </svg>
+      </button>
+
+      {/* Mobile dropdown */}
+      {mobileOpen && (
+        <div
+          className="absolute top-full left-0 right-0 mt-3 rounded-2xl p-5 flex flex-col gap-3 md:hidden shadow-xl"
+          style={{
+            background: "rgba(255, 255, 255, 0.85)",
+            backdropFilter: "blur(32px)",
+            WebkitBackdropFilter: "blur(32px)",
+            border: "1px solid rgba(0, 0, 0, 0.06)",
+          }}
+        >
+          <a href="#demo" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Demo</a>
+          <a href="#pricing" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Pricing</a>
+          <hr className="border-gray-200 my-1" />
+          <a href="#" className="text-gray-600 hover:text-gray-900 text-sm py-2 font-medium text-center rounded-xl" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
+          <a href="#" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-4 py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
+        </div>
+      )}
+    </nav>
+  )
+}
