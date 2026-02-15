@@ -391,7 +391,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
             ctx.save(); ctx.globalAlpha = opacity; ctx.fillStyle = "#ffffff"
             ctx.font = `600 ${Math.max(6, radius * 0.75)}px ${FONT}`
             ctx.textAlign = "center"; ctx.textBaseline = "middle"
-            ctx.fillText(node.name.charAt(0).toUpperCase(), p.x, p.y); ctx.restore()
+            ctx.fillText(isYou ? "🫵" : node.name.charAt(0).toUpperCase(), p.x, p.y); ctx.restore()
           }
         }
 

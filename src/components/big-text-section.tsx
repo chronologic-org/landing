@@ -14,7 +14,14 @@ export default function BigTextSection() {
                     everyone<br />
                     you have<br />
                     ever known<br />
-                    <span className="text-gray-300">in one place.</span>
+                    <span className="text-gray-300">in </span>
+                    <a
+                        href="https://app.sckry.com"
+                        className="text-gray-300 underline decoration-[#5885ec] underline-offset-8 hover:text-[#5885ec] transition-colors duration-200"
+                    >
+                        one place
+                    </a>
+                    <span className="text-gray-300">.</span>
                 </h2>
             </div>
         </section>
