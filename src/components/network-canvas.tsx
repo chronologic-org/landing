@@ -122,15 +122,19 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     const ground = world.createBody()
     s.ground = ground
 
-    // --- Build nodes ---
+    // --- Build nodes — scale count with screen size ---
+    const screenArea = cw * ch
+    const maxNodes = Math.min(155, Math.max(20, Math.round(screenArea / 6000)))
+    const nodeProfiles = profiles.slice(0, maxNodes)
+
     const nodeDataList: Omit<NodeData, "body">[] = []
     nodeDataList.push({
       id: "you", name: "YOU", photoUrl: "",
       x: centerX, y: centerY, isYou: true, connectionCount: 0,
     })
 
-    const maxRadius = Math.min(160, 15 + profiles.length * 0.35)
-    profiles.forEach((prof, i) => {
+    const maxRadius = Math.min(160, 15 + nodeProfiles.length * 0.35)
+    nodeProfiles.forEach((prof, i) => {
       const angle = i * 2.39996323
       const radius = 10 + Math.random() * (maxRadius - 10)
       nodeDataList.push({
