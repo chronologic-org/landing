@@ -22,7 +22,10 @@ export default function DemoSection() {
         <div className="flex justify-center mt-16">
           <a
             href="https://app.sckry.com"
-            className="group relative px-14 py-5 rounded-full bg-white/60 backdrop-blur-md border border-black/10 text-[#5885ec] text-2xl md:text-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:bg-[#5885ec] hover:text-white hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(88,133,236,0.3)] hover:border-[#5885ec] tracking-tight"
+            className="group relative px-14 py-5 rounded-full bg-white/60 backdrop-blur-md border border-black/10 text-[#5885ec] text-2xl md:text-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:bg-[#5885ec] hover:text-white hover:scale-[1.02] hover:shadow-[0_8px_30px_rgba(88,133,236,0.3)] hover:border-[#5885ec] tracking-tighter font-bold"
+            style={{
+              fontFamily: '"HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif'
+            }}
           >
             Try Sckry for free
           </a>
