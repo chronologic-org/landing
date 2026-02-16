@@ -1,6 +1,6 @@
 export default function DemoSection() {
   return (
-    <section id="demo" className="bg-gray-100 py-28 px-6">
+    <section id="demo" className="bg-gray-100 pt-16 pb-20 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
           See Sckry in action

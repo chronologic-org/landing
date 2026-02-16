@@ -69,7 +69,7 @@ export default function PricingSection() {
   const pro = billing === "yearly" ? proPlan.yearly : proPlan.monthly
 
   return (
-    <section id="pricing" className="bg-gray-50 py-28 px-6">
+    <section id="pricing" className="bg-gray-50 pt-20 pb-28 px-6">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
           Simple, transparent pricing
@@ -109,7 +109,7 @@ export default function PricingSection() {
               <h3 className="text-lg font-bold tracking-tight">Pro</h3>
             </div>
             <span className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase flex items-center gap-1">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
               POPULAR
             </span>
             <div className="mt-2 mb-1">
