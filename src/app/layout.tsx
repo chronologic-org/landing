@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { HonchTracker } from "@/components/honch-tracker"
 
 const SITE_URL = "https://sckry.com"
 const SITE_NAME = "Sckry"
@@ -172,6 +173,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
+        <HonchTracker />
       </body>
     </html>
   )
