@@ -50,7 +50,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     mouseJoint: null as planck.MouseJoint | null,
     animationId: 0,
     mousePos: null as { x: number; y: number } | null,
-    nodeImages: new Map<string, HTMLImageElement>(),
+    nodeImages: new Map<string, CanvasImageSource>(),
     canvasSize: { w: 800, h: 600 },
     nodeOpacity: new Map<string, number>(),
     searchMatchedIds: new Set<string>(),
@@ -182,10 +182,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     }
     nodeDataList.forEach((node) => {
       if (node.isYou) return
-      const avatarCanvas = generateAvatar(node.name, 64)
-      const img = new Image()
-      img.src = avatarCanvas.toDataURL()
-      img.onload = () => { s.nodeImages.set(node.id, img) }
+      s.nodeImages.set(node.id, generateAvatar(node.name, 64))
     })
 
     // --- Canvas setup ---
