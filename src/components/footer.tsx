@@ -46,13 +46,13 @@ export default function Footer() {
         {/* Right: Auth buttons */}
         <div className="flex flex-col sm:flex-row md:flex-col gap-3 md:items-end">
           <a
-            href="#"
+            href="https://app.sckry.com/login"
             className="text-sm text-white/80 hover:text-white transition-colors px-5 py-2 rounded-xl font-medium text-center"
             style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
           >
             Log In
           </a>
-          <a href="#" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-5 py-2 rounded-xl font-bold text-center">
+          <a href="https://app.sckry.com/signup" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-5 py-2 rounded-xl font-bold text-center">
             Sign Up
           </a>
         </div>

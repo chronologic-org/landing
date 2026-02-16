@@ -50,7 +50,7 @@ export default function Navbar() {
       {/* Desktop auth buttons */}
       <div className="hidden md:flex items-center gap-3">
         <a
-          href="#"
+          href="https://app.sckry.com/login"
           className="text-sm text-gray-600 hover:text-gray-900 transition-colors px-5 py-2 rounded-xl font-medium"
           style={{
             background: "rgba(0, 0, 0, 0.04)",
@@ -60,7 +60,7 @@ export default function Navbar() {
           Log In
         </a>
         <a
-          href="#"
+          href="https://app.sckry.com/signup"
           className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-5 py-2 rounded-xl font-semibold"
         >
           Sign Up
@@ -103,8 +103,8 @@ export default function Navbar() {
           <a href="#demo" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Demo</a>
           <a href="#pricing" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Pricing</a>
           <hr className="border-gray-200 my-1" />
-          <a href="#" className="text-gray-600 hover:text-gray-900 text-sm py-2 font-medium text-center rounded-xl" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
-          <a href="#" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-4 py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
+          <a href="https://app.sckry.com/login" className="text-gray-600 hover:text-gray-900 text-sm py-2 font-medium text-center rounded-xl" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
+          <a href="https://app.sckry.com/signup" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-4 py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
         </div>
       )}
     </nav>

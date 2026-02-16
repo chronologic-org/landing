@@ -8,13 +8,12 @@ export default function DemoSection() {
         <p className="text-gray-500 mb-12 max-w-lg mx-auto text-base">
           Watch how sckry transforms the way you manage and leverage your professional network.
         </p>
-        <div className="aspect-video rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
-          <div className="text-gray-400 flex flex-col items-center gap-3">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-            <span className="text-sm">Demo video coming soon</span>
-          </div>
+        <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-lg bg-gray-100">
+          <img
+            src="https://sat3peltpqobrnds.public.blob.vercel-storage.com/demo.gif"
+            alt="sckry demo — ask questions about your network and see it visualized"
+            className="w-full h-auto block"
+          />
         </div>
       </div>
     </section>
