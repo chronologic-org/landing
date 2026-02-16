@@ -4,7 +4,9 @@
       "Bash(npx create-next-app:*)",
       "Bash(npx next build:*)",
       "Bash(curl:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)"
     ]
   }
 }
