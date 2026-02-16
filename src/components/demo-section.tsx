@@ -10,7 +10,7 @@ export default function DemoSection() {
         </p>
         <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-lg bg-gray-100">
           <img
-            src="https://sat3peltpqobrnds.public.blob.vercel-storage.com/demo.gif"
+            src="/demo%20(1).gif"
             alt="Sckry demo — ask questions about your network and see it visualized"
             className="w-full h-auto block"
             style={{ imageRendering: "auto", WebkitFontSmoothing: "antialiased" }}
