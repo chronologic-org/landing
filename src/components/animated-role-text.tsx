@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 
-const roles = ["founder", "student", "recruiter", "owner", "marketer"]
+const roles = ["Founder", "Executive", "Marketer", "Recruiter", "Investor", "Student", "Consultant", "Advisor"]
 
 interface Props {
   onRoleChange: (role: string) => void
@@ -28,7 +28,7 @@ export default function AnimatedRoleText({ onRoleChange }: Props) {
       callbackRef.current(roles[0])
 
       while (!cancelled) {
-        await sleep(2500)
+        await sleep(1500)
         if (cancelled) return
 
         const currentWord = roles[roleIndex]

@@ -14,8 +14,8 @@ export default function HeroSection() {
     setCenterLabel(role)
   }, [])
 
-  const handleQuery = useCallback(() => {
-    canvasRef.current?.simulateQuery()
+  const handleQuery = useCallback((query: string) => {
+    canvasRef.current?.simulateQuery(query)
   }, [])
 
   return (

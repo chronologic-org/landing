@@ -25,7 +25,7 @@ export default function TrustBar() {
     }, [])
 
     return (
-        <section className="bg-gray-100 py-8 px-6 border-t border-gray-200">
+        <section className="bg-gray-100 py-8 px-6 border-t border-b border-gray-200">
             <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
                 <div className="flex items-center gap-2">
                     {/* Stacked avatar circles */}
@@ -46,7 +46,7 @@ export default function TrustBar() {
                     <span className="font-bold text-gray-900 tabular-nums">
                         {count.toLocaleString()}
                     </span>
-                    {" "}contacts entrusted to sckry
+                    {" "}contacts entrusted to Sckry
                 </p>
             </div>
         </section>

@@ -22,7 +22,7 @@ export default function Footer() {
                 <clipPath id="footer-clip"><rect width="192" height="192" /></clipPath>
               </defs>
             </svg>
-            <span className="font-normal text-lg tracking-tight">sckry</span>
+            <span className="font-normal text-lg tracking-tight">Sckry</span>
           </div>
           <p className="text-gray-500 text-sm">
             Your professional network, visualized and searchable.
@@ -59,7 +59,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-5xl mx-auto mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-600">
-        &copy; {new Date().getFullYear()} sckry. All rights reserved.
+        &copy; {new Date().getFullYear()} Sckry. All rights reserved.
       </div>
     </footer>
   )

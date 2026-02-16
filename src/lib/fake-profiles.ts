@@ -8,7 +8,7 @@ export interface FakeProfile {
 }
 
 function p(id: number, name: string, title: string, company: string, industry: string): FakeProfile {
-  return { id: `p${id}`, name, title, company, industry, avatarUrl: "" }
+  return { id: `p${id}`, name, title, company, industry, avatarUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}&mouth=smile&eyes=happy` }
 }
 
 const profiles: FakeProfile[] = [

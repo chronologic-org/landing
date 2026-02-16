@@ -2,10 +2,10 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 const SITE_URL = "https://sckry.com"
-const SITE_NAME = "sckry"
-const TITLE = "sckry — Your Professional Network, Visualized & Searchable"
+const SITE_NAME = "Sckry"
+const TITLE = "Sckry — Your Professional Network, Visualized & Searchable"
 const DESCRIPTION =
-  "sckry lets you visualize, search, and leverage every professional connection you've ever made. AI-powered relationship intelligence that turns your network into your most powerful asset."
+  "Sckry lets you visualize, search, and leverage every professional connection you've ever made. AI-powered relationship intelligence that turns your network into your most powerful asset."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   // ── Core ──────────────────────────────────────────────
   title: {
     default: TITLE,
-    template: "%s | sckry",
+    template: "%s | Sckry",
   },
   description: DESCRIPTION,
   applicationName: SITE_NAME,
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     "AI contact manager",
   ],
 
-  authors: [{ name: "sckry", url: SITE_URL }],
-  creator: "sckry",
-  publisher: "sckry",
+  authors: [{ name: "Sckry", url: SITE_URL }],
+  creator: "Sckry",
+  publisher: "Sckry",
 
   // ── Indexing ──────────────────────────────────────────
   robots: {
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "sckry — visualize and search your professional network",
+        alt: "Sckry — visualize and search your professional network",
         type: "image/png",
       },
     ],

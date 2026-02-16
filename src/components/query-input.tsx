@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 interface Props {
-  onSubmit: () => void
+  onSubmit: (query: string) => void
 }
 
 const queries = [
@@ -17,11 +17,20 @@ const queries = [
 export default function QueryInput({ onSubmit }: Props) {
   const [value, setValue] = useState("")
   const [placeholder, setPlaceholder] = useState("|")
+  const cancelledRef = useRef(false)
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
+  // Cycling placeholder — only runs when value is empty
   useEffect(() => {
+    if (value !== "") {
+      setPlaceholder("|")
+      return
+    }
+
+    cancelledRef.current = false
+    const timeouts = timeoutsRef.current
+    timeouts.length = 0
     let cancelled = false
-    let queryIndex = 0
-    const timeouts: ReturnType<typeof setTimeout>[] = []
 
     const sleep = (ms: number) =>
       new Promise<void>((resolve) => {
@@ -29,13 +38,13 @@ export default function QueryInput({ onSubmit }: Props) {
         timeouts.push(id)
       })
 
+    let queryIndex = 0
     const run = async () => {
       await sleep(600)
 
       while (!cancelled) {
         const query = queries[queryIndex]
 
-        // Type
         for (let i = 1; i <= query.length; i++) {
           if (cancelled) return
           setPlaceholder(query.slice(0, i) + "|")
@@ -43,12 +52,10 @@ export default function QueryInput({ onSubmit }: Props) {
           if (cancelled) return
         }
 
-        // Pause
         setPlaceholder(query + "|")
         await sleep(2200)
         if (cancelled) return
 
-        // Delete
         for (let i = query.length - 1; i >= 0; i--) {
           if (cancelled) return
           setPlaceholder(query.slice(0, i) + "|")
@@ -67,16 +74,21 @@ export default function QueryInput({ onSubmit }: Props) {
     run()
     return () => {
       cancelled = true
+      cancelledRef.current = true
       timeouts.forEach(clearTimeout)
     }
-  }, [])
+  }, [value === "" ? "empty" : "filled"])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault()
-      onSubmit()
-      setValue("")
+      onSubmit(value)
     }
+  }
+
+  const handleClear = () => {
+    setValue("")
+    onSubmit("")
   }
 
   return (
@@ -108,6 +120,19 @@ export default function QueryInput({ onSubmit }: Props) {
           fontWeight: 400,
         }}
       />
+      {value && (
+        <button
+          onClick={handleClear}
+          className="flex items-center justify-center w-6 h-6 rounded-full transition-colors hover:bg-black/10"
+          style={{ color: "rgba(0,0,0,0.4)" }}
+          aria-label="Clear search"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6L6 18" />
+            <path d="M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </div>
   )
 }

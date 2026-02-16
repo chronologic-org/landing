@@ -29,10 +29,11 @@ interface NodeData {
   isYou?: boolean
   title?: string
   company?: string
+  industry?: string
 }
 
 export interface NetworkCanvasHandle {
-  simulateQuery: () => void
+  simulateQuery: (query: string) => void
 }
 
 interface Props {
@@ -75,13 +76,31 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
   }, [])
 
   useImperativeHandle(ref, () => ({
-    simulateQuery() {
+    simulateQuery(query: string) {
       const s = stateRef.current
-      const nonCenter = s.nodes.filter(n => !n.isYou)
-      const count = 3 + Math.floor(Math.random() * 3)
-      const shuffled = [...nonCenter].sort(() => Math.random() - 0.5)
-      s.searchMatchedIds = new Set(shuffled.slice(0, count).map(n => n.id))
-      setTimeout(() => { s.searchMatchedIds = new Set() }, 5000)
+      const trimmed = query.trim().toLowerCase()
+      if (!trimmed) {
+        s.searchMatchedIds = new Set()
+        return
+      }
+      const stopWords = new Set(["who", "do", "i", "know", "that", "works", "at", "in", "find", "me", "the", "a", "an", "my", "is", "are", "for", "of", "and", "or", "to", "with"])
+      const keywords = trimmed.split(/\s+/).filter(w => !stopWords.has(w))
+      if (keywords.length === 0) {
+        s.searchMatchedIds = new Set()
+        return
+      }
+      const matched = new Set<string>()
+      for (const node of s.nodes) {
+        if (node.isYou) continue
+        const fields = [node.name, node.title, node.company, node.industry].map(f => (f || "").toLowerCase())
+        for (const kw of keywords) {
+          if (fields.some(f => f.includes(kw))) {
+            matched.add(node.id)
+            break
+          }
+        }
+      }
+      s.searchMatchedIds = matched
     },
   }))
 
@@ -119,7 +138,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
         photoUrl: prof.avatarUrl,
         x: centerX + Math.cos(angle) * radius + (Math.random() - 0.5) * 10,
         y: centerY + Math.sin(angle) * radius + (Math.random() - 0.5) * 10,
-        title: prof.title, company: prof.company,
+        title: prof.title, company: prof.company, industry: prof.industry,
         connectionCount: 0,
       })
     })
@@ -152,27 +171,24 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
         if (py < mnY) mnY = py; if (py > mxY) mxY = py
       })
       const sw = mxX - mnX + 10, sh = mxY - mnY + 10
-      const fz = Math.max(cw / sw, ch / sh) * 1.8
+      const fz = Math.max(cw / sw, ch / sh) * 1.5
       s.zoom = Math.max(MIN_ZOOM, Math.min(fz, MAX_ZOOM))
       const midX = (mnX + mxX) / 2 * s.zoom
       const midY = (mnY + mxY) / 2 * s.zoom
       s.pan = { x: cw / 2 - midX, y: ch / 2 - midY }
     }
 
-    // --- Generate avatar images locally ---
-    const generateAvatar = (name: string, size: number): HTMLCanvasElement => {
+    // --- Generate fallback avatar (initials) ---
+    const generateFallbackAvatar = (name: string, size: number): HTMLCanvasElement => {
       const offscreen = document.createElement("canvas")
       offscreen.width = size; offscreen.height = size
       const octx = offscreen.getContext("2d")
       if (!octx) return offscreen
-      // Deterministic hue from name
       let hash = 0
       for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
       const hue = ((hash % 360) + 360) % 360
-      // Draw colored circle
       octx.fillStyle = `hsl(${hue}, 55%, 62%)`
       octx.beginPath(); octx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2); octx.fill()
-      // Draw initials
       const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
       octx.fillStyle = "#fff"
       octx.font = `600 ${size * 0.4}px sans-serif`
@@ -180,9 +196,19 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
       octx.fillText(initials, size / 2, size / 2 + 1)
       return offscreen
     }
+
+    // --- Load dicebear avatars with fallback ---
     nodeDataList.forEach((node) => {
       if (node.isYou) return
-      s.nodeImages.set(node.id, generateAvatar(node.name, 64))
+      // Set fallback immediately so nodes render right away
+      s.nodeImages.set(node.id, generateFallbackAvatar(node.name, 64))
+      // Load dicebear SVG
+      if (node.photoUrl) {
+        const img = new Image()
+        img.crossOrigin = "anonymous"
+        img.onload = () => { s.nodeImages.set(node.id, img) }
+        img.src = node.photoUrl
+      }
     })
 
     // --- Canvas setup ---

@@ -6,7 +6,9 @@
       "Bash(curl:*)",
       "Bash(npm ls:*)",
       "Bash(git reset:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:sat3peltpqobrnds.public.blob.vercel-storage.com)"
     ]
   }
 }

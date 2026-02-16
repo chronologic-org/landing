@@ -35,7 +35,7 @@ export default function Navbar() {
             <clipPath id="nav-clip"><rect width="192" height="192" /></clipPath>
           </defs>
         </svg>
-        <span className="text-gray-900 font-medium text-xl tracking-tight hidden sm:inline">sckry</span>
+        <span className="text-gray-900 font-medium text-xl tracking-tight leading-none translate-y-[0.5px]">Sckry</span>
       </a>
 
       {/* Desktop nav links */}
@@ -67,13 +67,14 @@ export default function Navbar() {
         </a>
       </div>
 
-      {/* Mobile hamburger */}
+      {/* Mobile menu button */}
       <button
-        className="md:hidden ml-auto text-gray-400 hover:text-gray-900 transition-colors"
+        className="md:hidden ml-auto w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-black/5"
         onClick={() => setMobileOpen(!mobileOpen)}
         aria-label="Toggle menu"
+        style={{ color: "rgba(0,0,0,0.5)" }}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
           {mobileOpen ? (
             <>
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -81,9 +82,9 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <line x1="3" y1="7" x2="21" y2="7" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="17" x2="21" y2="17" />
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
             </>
           )}
         </svg>
@@ -92,19 +93,22 @@ export default function Navbar() {
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div
-          className="absolute top-full left-0 right-0 mt-3 rounded-2xl p-5 flex flex-col gap-3 md:hidden shadow-xl"
+          className="absolute top-full left-0 right-0 mt-2 rounded-2xl p-4 flex flex-col gap-1 md:hidden"
           style={{
-            background: "rgba(255, 255, 255, 0.85)",
-            backdropFilter: "blur(32px)",
-            WebkitBackdropFilter: "blur(32px)",
-            border: "1px solid rgba(0, 0, 0, 0.06)",
+            background: "rgba(255, 255, 255, 0.97)",
+            backdropFilter: "blur(40px)",
+            WebkitBackdropFilter: "blur(40px)",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
+            boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
           }}
         >
-          <a href="#demo" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Demo</a>
-          <a href="#pricing" className="text-gray-500 hover:text-gray-900 text-sm py-2 font-medium" onClick={() => setMobileOpen(false)}>Pricing</a>
-          <hr className="border-gray-200 my-1" />
-          <a href="https://app.sckry.com/login" className="text-gray-600 hover:text-gray-900 text-sm py-2 font-medium text-center rounded-xl" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
-          <a href="https://app.sckry.com/signup" className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-4 py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
+          <a href="#demo" className="text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] text-sm py-2.5 px-3 rounded-xl font-medium transition-colors" onClick={() => setMobileOpen(false)}>Demo</a>
+          <a href="#pricing" className="text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] text-sm py-2.5 px-3 rounded-xl font-medium transition-colors" onClick={() => setMobileOpen(false)}>Pricing</a>
+          <hr className="border-gray-100 my-1.5" />
+          <div className="flex gap-2 mt-1">
+            <a href="https://app.sckry.com/login" className="flex-1 text-gray-600 hover:text-gray-900 text-sm py-2.5 font-medium text-center rounded-xl transition-colors" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
+            <a href="https://app.sckry.com/signup" className="flex-1 text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
+          </div>
         </div>
       )}
     </nav>
