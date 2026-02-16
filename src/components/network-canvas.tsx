@@ -159,19 +159,34 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
       s.pan = { x: cw / 2 - midX, y: ch / 2 - midY }
     }
 
-    // --- Load images ---
-    const batchSize = 30
-    const loadBatch = (start: number) => {
-      nodeDataList.slice(start, start + batchSize).forEach((node) => {
-        if (!node.photoUrl) return
-        const img = new Image()
-        img.crossOrigin = "anonymous"
-        img.src = node.photoUrl
-        img.onload = () => { s.nodeImages.set(node.id, img) }
-      })
-      if (start + batchSize < nodeDataList.length) setTimeout(() => loadBatch(start + batchSize), 80)
+    // --- Generate avatar images locally ---
+    const generateAvatar = (name: string, size: number): HTMLCanvasElement => {
+      const offscreen = document.createElement("canvas")
+      offscreen.width = size; offscreen.height = size
+      const octx = offscreen.getContext("2d")
+      if (!octx) return offscreen
+      // Deterministic hue from name
+      let hash = 0
+      for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
+      const hue = ((hash % 360) + 360) % 360
+      // Draw colored circle
+      octx.fillStyle = `hsl(${hue}, 55%, 62%)`
+      octx.beginPath(); octx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2); octx.fill()
+      // Draw initials
+      const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
+      octx.fillStyle = "#fff"
+      octx.font = `600 ${size * 0.4}px sans-serif`
+      octx.textAlign = "center"; octx.textBaseline = "middle"
+      octx.fillText(initials, size / 2, size / 2 + 1)
+      return offscreen
     }
-    loadBatch(0)
+    nodeDataList.forEach((node) => {
+      if (node.isYou) return
+      const avatarCanvas = generateAvatar(node.name, 64)
+      const img = new Image()
+      img.src = avatarCanvas.toDataURL()
+      img.onload = () => { s.nodeImages.set(node.id, img) }
+    })
 
     // --- Canvas setup ---
     const ctx = canvas.getContext("2d")
