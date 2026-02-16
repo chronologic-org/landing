@@ -607,6 +607,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
+      style={{ touchAction: "none" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

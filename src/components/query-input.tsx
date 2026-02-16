@@ -93,7 +93,7 @@ export default function QueryInput({ onSubmit }: Props) {
 
   return (
     <div
-      className="rounded-full px-7 py-6 flex items-center gap-4 w-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:scale-[1.01] cursor-text"
+      className="relative rounded-full px-5 py-4 md:px-7 md:py-6 flex items-center gap-3 md:gap-4 w-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:scale-[1.01] cursor-text"
       style={{
         background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(24px)",

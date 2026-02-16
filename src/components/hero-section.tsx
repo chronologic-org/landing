@@ -27,7 +27,7 @@ export default function HeroSection() {
       <AnimatedRoleText onRoleChange={handleRoleChange} />
 
       {/* Query input */}
-      <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10 w-full max-w-3xl px-4">
+      <div className="absolute bottom-28 md:bottom-40 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4">
         <QueryInput onSubmit={handleQuery} />
       </div>
 
