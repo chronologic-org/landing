@@ -31,8 +31,8 @@ export default function Footer() {
 
         {/* Center: Links */}
         <div className="flex flex-col gap-2.5 text-sm">
-          <a href="#" className="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
-          <a href="#" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
+          <a href="/terms" className="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
+          <a href="/privacy" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
           <a
             href="https://calendly.com/raeedz/chronologic"
             target="_blank"
