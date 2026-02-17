@@ -589,72 +589,89 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
 
   const handleWheel = useCallback((_e: React.WheelEvent<HTMLCanvasElement>) => { }, [])
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    const s = stateRef.current
-    if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY
-      s.lastPinchDist = Math.sqrt(dx * dx + dy * dy); return
-    }
-    const t = e.touches[0], canvas = canvasRef.current
-    if (!canvas || !s.world || !s.ground || !t) return
-    const rect = canvas.getBoundingClientRect()
-    const tw2 = toWorld(t.clientX - rect.left, t.clientY - rect.top)
-    // On touch devices, only the center "YOU" node is grabbable
-    const youNode = s.nodes.find(n => n.isYou)
-    if (youNode?.body && planck.Vec2.distance(youNode.body.getPosition(), tw2) < YOU_NODE_RADIUS * 3) {
-      s.draggedNode = youNode
-      const j = s.world.createJoint(planck.MouseJoint({
-        bodyA: s.ground, bodyB: youNode.body, target: tw2,
-        maxForce: 5000 * youNode.body.getMass(), frequencyHz: 5, dampingRatio: 0.9,
-      }))
-      s.mouseJoint = j as planck.MouseJoint
-    }
-  }, [toWorld])
+  // Native touch handlers (non-passive) so preventDefault works on mobile
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    const s = stateRef.current
-    if (e.touches.length === 2) {
-      const canvas = canvasRef.current; if (!canvas) return
-      const rect = canvas.getBoundingClientRect()
-      const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY
-      const cd = Math.sqrt(dx * dx + dy * dy)
-      const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left
-      const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top
-      if (s.lastPinchDist !== null) {
-        const nz = Math.min(Math.max(s.zoom * cd / s.lastPinchDist, MIN_ZOOM), MAX_ZOOM)
-        const zc = nz / s.zoom
-        s.pan = { x: cx - (cx - s.pan.x) * zc, y: cy - (cy - s.pan.y) * zc }
-        s.zoom = nz
+    const onTouchStart = (e: TouchEvent) => {
+      const s = stateRef.current
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY
+        s.lastPinchDist = Math.sqrt(dx * dx + dy * dy); return
       }
-      s.lastPinchDist = cd; return
+      const t = e.touches[0]
+      if (!s.world || !s.ground || !t) return
+      const rect = canvas.getBoundingClientRect()
+      const tw2 = toWorld(t.clientX - rect.left, t.clientY - rect.top)
+      // On touch devices, only the center "YOU" node is grabbable
+      const youNode = s.nodes.find(n => n.isYou)
+      if (youNode?.body && planck.Vec2.distance(youNode.body.getPosition(), tw2) < YOU_NODE_RADIUS * 3) {
+        e.preventDefault()
+        s.draggedNode = youNode
+        const j = s.world.createJoint(planck.MouseJoint({
+          bodyA: s.ground, bodyB: youNode.body, target: tw2,
+          maxForce: 5000 * youNode.body.getMass(), frequencyHz: 5, dampingRatio: 0.9,
+        }))
+        s.mouseJoint = j as planck.MouseJoint
+      }
+      // If not touching the YOU node, don't preventDefault — allow native scroll
     }
-    const t = e.touches[0], canvas = canvasRef.current
-    if (!canvas || !s.mouseJoint || !t) return
-    const rect = canvas.getBoundingClientRect()
-    s.mouseJoint.setTarget(toWorld(t.clientX - rect.left, t.clientY - rect.top))
-  }, [toWorld])
 
-  const handleTouchEnd = useCallback(() => {
-    const s = stateRef.current
-    if (s.world && s.mouseJoint) s.world.destroyJoint(s.mouseJoint)
-    s.mouseJoint = null; s.draggedNode = null; s.lastPinchDist = null
-  }, [])
+    const onTouchMove = (e: TouchEvent) => {
+      const s = stateRef.current
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        const rect = canvas.getBoundingClientRect()
+        const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY
+        const cd = Math.sqrt(dx * dx + dy * dy)
+        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left
+        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top
+        if (s.lastPinchDist !== null) {
+          const nz = Math.min(Math.max(s.zoom * cd / s.lastPinchDist, MIN_ZOOM), MAX_ZOOM)
+          const zc = nz / s.zoom
+          s.pan = { x: cx - (cx - s.pan.x) * zc, y: cy - (cy - s.pan.y) * zc }
+          s.zoom = nz
+        }
+        s.lastPinchDist = cd; return
+      }
+      // Only prevent scroll when actively dragging the YOU node
+      if (!s.mouseJoint) return
+      e.preventDefault()
+      const t = e.touches[0]
+      if (!t) return
+      const rect = canvas.getBoundingClientRect()
+      s.mouseJoint.setTarget(toWorld(t.clientX - rect.left, t.clientY - rect.top))
+    }
+
+    const onTouchEnd = () => {
+      const s = stateRef.current
+      if (s.world && s.mouseJoint) s.world.destroyJoint(s.mouseJoint)
+      s.mouseJoint = null; s.draggedNode = null; s.lastPinchDist = null
+    }
+
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false })
+    canvas.addEventListener("touchmove", onTouchMove, { passive: false })
+    canvas.addEventListener("touchend", onTouchEnd)
+
+    return () => {
+      canvas.removeEventListener("touchstart", onTouchStart)
+      canvas.removeEventListener("touchmove", onTouchMove)
+      canvas.removeEventListener("touchend", onTouchEnd)
+    }
+  }, [toWorld])
 
   return (
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ touchAction: "none" }}
+      style={{ touchAction: "pan-y" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
       onWheel={handleWheel}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     />
   )
 })
