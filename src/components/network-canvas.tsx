@@ -607,7 +607,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
       const tw2 = toWorld(t.clientX - rect.left, t.clientY - rect.top)
       // On touch devices, only the center "YOU" node is grabbable
       const youNode = s.nodes.find(n => n.isYou)
-      if (youNode?.body && planck.Vec2.distance(youNode.body.getPosition(), tw2) < YOU_NODE_RADIUS * 3) {
+      if (youNode?.body && planck.Vec2.distance(youNode.body.getPosition(), tw2) < YOU_NODE_RADIUS * 1.2) {
         e.preventDefault()
         s.draggedNode = youNode
         const j = s.world.createJoint(planck.MouseJoint({
