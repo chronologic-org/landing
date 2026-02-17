@@ -241,27 +241,60 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     // --- Forces ---
     const applyCenterForce = () => {
       const center = getCenter()
+      const cx = center.x, cy = center.y
       for (const node of s.nodes) {
         if (!node.body) continue
-        const diff = planck.Vec2.sub(center, node.body.getPosition())
+        const pos = node.body.getPosition()
         const mult = node.isYou ? 10 : CENTER_FORCE
-        node.body.applyForceToCenter(planck.Vec2.mul(diff, mult), true)
+        node.body.applyForceToCenter(planck.Vec2((cx - pos.x) * mult, (cy - pos.y) * mult), true)
       }
     }
 
+    // Spatial grid for O(n) repulsion instead of O(n²)
+    const GRID_CELL = REPULSION_RADIUS
+    const gridMap = new Map<string, number[]>()
+    const gridKey = (cx: number, cy: number) => `${cx},${cy}`
+
     const applyRepulsion = () => {
       const ns = s.nodes
+      gridMap.clear()
+
+      // Insert nodes into grid cells
       for (let i = 0; i < ns.length; i++) {
-        for (let j = i + 1; j < ns.length; j++) {
-          const nA = ns[i], nB = ns[j]
-          if (!nA.body || !nB.body) continue
-          const diff = planck.Vec2.sub(nB.body.getPosition(), nA.body.getPosition())
-          const distance = diff.length()
-          if (distance < REPULSION_RADIUS && distance > 0.01) {
-            const force = (REPULSION_FORCE * (REPULSION_RADIUS - distance)) / distance
-            const fv = planck.Vec2.mul(diff, -force / distance)
-            nA.body.applyForceToCenter(fv, true)
-            nB.body.applyForceToCenter(planck.Vec2.neg(fv), true)
+        const b = ns[i].body
+        if (!b) continue
+        const pos = b.getPosition()
+        const cx = Math.floor(pos.x / GRID_CELL), cy = Math.floor(pos.y / GRID_CELL)
+        const key = gridKey(cx, cy)
+        const cell = gridMap.get(key)
+        if (cell) cell.push(i); else gridMap.set(key, [i])
+      }
+
+      // Check only neighboring cells
+      for (let i = 0; i < ns.length; i++) {
+        const nA = ns[i]
+        if (!nA.body) continue
+        const posA = nA.body.getPosition()
+        const cx = Math.floor(posA.x / GRID_CELL), cy = Math.floor(posA.y / GRID_CELL)
+
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            const cell = gridMap.get(gridKey(cx + dx, cy + dy))
+            if (!cell) continue
+            for (const j of cell) {
+              if (j <= i) continue
+              const nB = ns[j]
+              if (!nB.body) continue
+              const posB = nB.body.getPosition()
+              const diffX = posB.x - posA.x, diffY = posB.y - posA.y
+              const distSq = diffX * diffX + diffY * diffY
+              if (distSq >= REPULSION_RADIUS * REPULSION_RADIUS || distSq < 0.0001) continue
+              const distance = Math.sqrt(distSq)
+              const force = (REPULSION_FORCE * (REPULSION_RADIUS - distance)) / distance
+              const fx = -force * diffX / distance, fy = -force * diffY / distance
+              nA.body.applyForceToCenter(planck.Vec2(fx, fy), true)
+              nB.body.applyForceToCenter(planck.Vec2(-fx, -fy), true)
+            }
           }
         }
       }
@@ -270,14 +303,16 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     const applyHoverRepulsion = (hovered: NodeData) => {
       if (!hovered.body) return
       const hPos = hovered.body.getPosition()
+      const hx = hPos.x, hy = hPos.y
       for (const node of s.nodes) {
         if (!node.body || node.id === hovered.id) continue
-        const diff = planck.Vec2.sub(node.body.getPosition(), hPos)
-        const dist = diff.length()
-        if (dist < HOVER_PUSH_RADIUS && dist > 0.01) {
-          const push = (HOVER_PUSH_RADIUS - dist) * 12 / dist
-          node.body.applyForceToCenter(planck.Vec2.mul(diff, push / dist), true)
-        }
+        const nPos = node.body.getPosition()
+        const dx = nPos.x - hx, dy = nPos.y - hy
+        const distSq = dx * dx + dy * dy
+        if (distSq >= HOVER_PUSH_RADIUS * HOVER_PUSH_RADIUS || distSq < 0.0001) continue
+        const dist = Math.sqrt(distSq)
+        const push = (HOVER_PUSH_RADIUS - dist) * 12 / dist
+        node.body.applyForceToCenter(planck.Vec2(push * dx / dist, push * dy / dist), true)
       }
     }
 
@@ -296,6 +331,11 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     }
 
     const FONT = '"HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif'
+
+    // Pre-sort: YOU node last so it renders on top
+    const sortedNodes = [...nodes].sort((a, b) => {
+      if (a.isYou) return 1; if (b.isYou) return -1; return 0
+    })
 
     // --- Render loop ---
     let running = true
@@ -367,10 +407,6 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
       }
 
       const maxConn = Math.max(...s.nodes.map(n => n.connectionCount || 0), 1)
-
-      const sortedNodes = [...s.nodes].sort((a, b) => {
-        if (a.isYou) return 1; if (b.isYou) return -1; return 0
-      })
 
       sortedNodes.forEach((node) => {
         if (!node.body) return
@@ -564,16 +600,15 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     if (!canvas || !s.world || !s.ground || !t) return
     const rect = canvas.getBoundingClientRect()
     const tw2 = toWorld(t.clientX - rect.left, t.clientY - rect.top)
-    for (const node of s.nodes) {
-      if (!node.body) continue
-      if (planck.Vec2.distance(node.body.getPosition(), tw2) < NODE_RADIUS * 3) {
-        s.draggedNode = node
-        const j = s.world.createJoint(planck.MouseJoint({
-          bodyA: s.ground, bodyB: node.body, target: tw2,
-          maxForce: 5000 * node.body.getMass(), frequencyHz: 5, dampingRatio: 0.9,
-        }))
-        s.mouseJoint = j as planck.MouseJoint; break
-      }
+    // On touch devices, only the center "YOU" node is grabbable
+    const youNode = s.nodes.find(n => n.isYou)
+    if (youNode?.body && planck.Vec2.distance(youNode.body.getPosition(), tw2) < YOU_NODE_RADIUS * 3) {
+      s.draggedNode = youNode
+      const j = s.world.createJoint(planck.MouseJoint({
+        bodyA: s.ground, bodyB: youNode.body, target: tw2,
+        maxForce: 5000 * youNode.body.getMass(), frequencyHz: 5, dampingRatio: 0.9,
+      }))
+      s.mouseJoint = j as planck.MouseJoint
     }
   }, [toWorld])
 

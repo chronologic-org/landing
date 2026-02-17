@@ -91,10 +91,20 @@ export const metadata: Metadata = {
   // ── Icons ─────────────────────────────────────────────
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/icon.svg",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
+
+  // ── Manifest ─────────────────────────────────────────
+  manifest: "/manifest.webmanifest",
 
   // ── Alternates & canonical ────────────────────────────
   alternates: {
@@ -103,6 +113,12 @@ export const metadata: Metadata = {
 
   // ── Categorization ────────────────────────────────────
   category: "Technology",
+
+  // ── Other meta tags ─────────────────────────────────
+  other: {
+    "theme-color": "#5885ec",
+    "msapplication-TileColor": "#0a0a0a",
+  },
 
   // ── Verification (fill in once you have codes) ────────
   // verification: {
@@ -126,13 +142,6 @@ const jsonLd = {
     lowPrice: "0",
     highPrice: "30",
     offerCount: "3",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "1200",
-    bestRating: "5",
-    worstRating: "1",
   },
   featureList: [
     "AI-powered professional network search",

@@ -1,0 +1,26 @@
+{
+  "name": "Sckry — Your Professional Network, Visualized & Searchable",
+  "short_name": "Sckry",
+  "description": "Visualize, search, and leverage every professional connection you've ever made.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#5885ec",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
