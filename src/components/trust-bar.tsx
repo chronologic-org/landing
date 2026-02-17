@@ -76,16 +76,17 @@ export default function TrustBar() {
                             <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="14" fontFamily="Georgia, serif" fontWeight="bold">GS</text>
                         </svg>
                     </div>
-                    {/* McKinsey */}
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#003B5C] flex items-center justify-center" style={{ zIndex: 2 }}>
-                        <svg width="16" height="16" viewBox="0 0 32 32">
-                            <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="11" fontFamily="Georgia, serif" fontWeight="bold">McK</text>
+                    {/* Apple */}
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-black flex items-center justify-center" style={{ zIndex: 2 }}>
+                        <svg width="14" height="14" viewBox="0 0 384 512">
+                            <path fill="white" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-62.1 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
                         </svg>
                     </div>
-                    {/* Blackstone */}
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#1A1A2E] flex items-center justify-center" style={{ zIndex: 1 }}>
-                        <svg width="16" height="16" viewBox="0 0 32 32">
-                            <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="13" fontFamily="Georgia, serif" fontWeight="bold">BX</text>
+                    {/* Amazon */}
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#232F3E] flex items-center justify-center" style={{ zIndex: 1 }}>
+                        <svg width="16" height="16" viewBox="-30 -2 70 24">
+                            <path fill="#FF9900" d="M27.3 12.5c-6.2 4.6-15.2 7-22.9 7-10.8 0-20.6-4-28-10.7-.6-.5-.1-1.2.6-.8 8 4.6 17.8 7.4 28 7.4 6.9 0 14.4-1.4 21.3-4.4 1-.5 1.9.7.9 1.5z"/>
+                            <path fill="#FF9900" d="M29.8 9.7c-.8-1-5.2-.5-7.2-.2-.6.1-.7-.5-.2-.8 3.5-2.5 9.3-1.8 10-.9.7.8-.2 6.6-3.5 9.3-.5.4-1 .2-.8-.3.7-1.9 2.4-6.1 1.6-7.1z"/>
                         </svg>
                     </div>
                 </div>
