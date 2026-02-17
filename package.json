@@ -11,6 +11,7 @@
   "dependencies": {
     "@honch/sdk": "^0.1.6",
     "@splinetool/react-spline": "^4.1.0",
+    "@supabase/supabase-js": "^2.95.3",
     "framer-motion": "^12.34.0",
     "glassmorphic": "^0.0.3",
     "next": "16.1.6",
