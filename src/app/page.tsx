@@ -7,7 +7,6 @@ import DemoSection from "@/components/demo-section"
 import PricingSection from "@/components/pricing-section"
 import BigTextSection from "@/components/big-text-section"
 import Footer from "@/components/footer"
-
 export default function Home() {
   return (
     <>
