@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Geist:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 @import "glassmorphic/glassmorphic.css";
 
@@ -13,7 +14,9 @@
   --color-background: #f3f4f6;
   --color-foreground: #171717;
   --color-accent: #5885ec;
-  --font-sans: "HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-primary: #4A6CF7;
+  --font-sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Unbounded", sans-serif;
 }
 
 html {
@@ -23,31 +26,131 @@ html {
 body {
   background: #f3f4f6;
   color: var(--color-foreground);
-  font-family: "HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Keyframes ───────────────────────────────────────────── */
+
 /* Blinking caret for typewriter effect */
 @keyframes blink {
-
   0%,
-  50% {
-    opacity: 1;
-  }
-
+  50% { opacity: 1; }
   51%,
-  100% {
+  100% { opacity: 0; }
+}
+
+@keyframes navEnter {
+  from {
     opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@keyframes heroHeadline {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSubtext {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Animation classes ───────────────────────────────────── */
+
 .animate-blink {
   animation: blink 0.8s step-end infinite;
+}
+
+.animate-nav-enter {
+  animation: navEnter 300ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.hero-headline {
+  animation: heroHeadline 700ms cubic-bezier(0.23, 1, 0.32, 1) 100ms both;
+}
+
+.hero-subtext {
+  animation: heroSubtext 700ms cubic-bezier(0.23, 1, 0.32, 1) 250ms both;
+}
+
+/* ── Integration pill hover ──────────────────────────────── */
+
+.logo-pill-hover {
+  filter: grayscale(1);
+  transition: filter 250ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .logo-pill-hover:hover {
+    filter: grayscale(0);
+  }
+}
+
+/* ── Button press feedback ───────────────────────────────── */
+
+.btn-primary,
+.btn-ghost {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+              background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: scale(0.97);
+  }
 }
 
 /* Make placeholder text visible in glassmorphic inputs */
 input::placeholder {
   color: rgba(0, 0, 0, 0.3) !important;
   opacity: 1 !important;
+}
+
+/* ── Canvas fade-in ──────────────────────────────────────── */
+
+@keyframes canvasFadeIn {
+  from { opacity: 0.15; }
+  to   { opacity: 1; }
+}
+
+.animate-canvas-fadein {
+  animation: canvasFadeIn 2000ms cubic-bezier(0.23, 1, 0.32, 1) 400ms both;
+}
+
+/* ── Venn diagram icon hover ─────────────────────────────── */
+
+.venn-icon .venn-l,
+.venn-icon .venn-r {
+  transition: transform 250ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .venn-icon:hover .venn-l {
+    transform: translateX(-4px);
+  }
+  .venn-icon:hover .venn-r {
+    transform: translateX(4px);
+  }
 }

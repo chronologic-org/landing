@@ -7,8 +7,8 @@ export default function BigTextSection() {
                 <h2
                     className="text-left leading-[0.92] md:leading-[0.9] tracking-tighter text-gray-900 font-bold"
                     style={{
-                        fontFamily: '"HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif',
-                        fontSize: "clamp(13vw, 12vw, 14rem)",
+                        fontFamily: "'Unbounded', sans-serif",
+                        fontSize: "clamp(2rem, 10vw, 11rem)",
                     }}
                 >
                     everyone<br />

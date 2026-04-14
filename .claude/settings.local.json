@@ -9,7 +9,11 @@
       "Bash(git push:*)",
       "Bash(npx tsc:*)",
       "WebFetch(domain:sat3peltpqobrnds.public.blob.vercel-storage.com)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(cp /Users/leonski/.claude/image-cache/a030f7e1-94f0-42fb-8e27-3202fe95f375/5.png /Users/leonski/Documents/GitHub/SCKRY/landing/public/logos/google.png)",
+      "Bash(cp /Users/leonski/.claude/image-cache/a030f7e1-94f0-42fb-8e27-3202fe95f375/6.png /Users/leonski/Documents/GitHub/SCKRY/landing/public/logos/goldman.png)",
+      "Bash(cp /Users/leonski/.claude/image-cache/a030f7e1-94f0-42fb-8e27-3202fe95f375/7.png /Users/leonski/Documents/GitHub/SCKRY/landing/public/logos/amazon.png)",
+      "Bash(cp /Users/leonski/.claude/image-cache/a030f7e1-94f0-42fb-8e27-3202fe95f375/8.png /Users/leonski/Documents/GitHub/SCKRY/landing/public/logos/microsoft.png)"
     ]
   }
 }

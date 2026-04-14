@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl rounded-full px-6 py-5 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+      className="animate-nav-enter fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl rounded-full px-6 py-3 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
       style={{
         background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(32px)",
@@ -18,7 +18,7 @@ export default function Navbar() {
     >
       {/* Logo */}
       <a href="#" className="flex items-center gap-2.5 shrink-0">
-        <svg width="32" height="32" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="28" height="28" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#nav-clip)">
             <path d="M96 96L122.93 3.85L140.64 11.01Z" fill="#4a90e2" />
             <path d="M96 96L85.61 0.56L104.72 0.4Z" fill="#4a90e2" />
@@ -35,12 +35,20 @@ export default function Navbar() {
             <clipPath id="nav-clip"><rect width="192" height="192" /></clipPath>
           </defs>
         </svg>
-        <span className="text-gray-900 font-medium text-xl tracking-tight leading-none translate-y-[0.5px]">Sckry</span>
+        <span
+          className="text-gray-900 font-bold text-lg leading-none translate-y-[0.5px]"
+          style={{ fontFamily: "'Unbounded', sans-serif" }}
+        >
+          Sckry
+        </span>
       </a>
 
       {/* Desktop nav links */}
-      <div className="hidden md:flex items-center gap-6 ml-8 text-sm font-medium tracking-wide text-gray-400">
-        <a href="#demo" className="hover:text-gray-900 transition-colors duration-200">Demo</a>
+      <div
+        className="hidden md:flex items-center gap-6 ml-8 text-sm font-medium tracking-wide text-gray-400"
+        style={{ fontFamily: "'Geist', sans-serif" }}
+      >
+        <a href="#features" className="hover:text-gray-900 transition-colors duration-200">Features</a>
         <a href="#pricing" className="hover:text-gray-900 transition-colors duration-200">Pricing</a>
       </div>
 
@@ -48,20 +56,21 @@ export default function Navbar() {
       <div className="flex-1" />
 
       {/* Desktop auth buttons */}
-      <div className="hidden md:flex items-center gap-3">
+      <div
+        className="hidden md:flex items-center gap-3"
+        style={{ fontFamily: "'Geist', sans-serif" }}
+      >
         <a
           href="https://app.sckry.com/login"
-          className="text-sm text-gray-600 hover:text-gray-900 transition-colors px-5 py-2 rounded-xl font-medium"
-          style={{
-            background: "rgba(0, 0, 0, 0.04)",
-            border: "1px solid rgba(0, 0, 0, 0.08)",
-          }}
+          className="btn-ghost text-sm text-gray-700 hover:text-gray-900 hover:bg-black/5 px-[22px] py-[10px] rounded-full font-medium"
+          style={{ border: "1.5px solid rgba(0,0,0,0.15)" }}
         >
           Log In
         </a>
         <a
           href="https://app.sckry.com/signup"
-          className="text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors px-5 py-2 rounded-xl font-semibold"
+          className="btn-primary text-sm text-white px-[22px] py-[10px] rounded-full font-semibold hover:opacity-90"
+          style={{ backgroundColor: "#4A6CF7" }}
         >
           Sign Up
         </a>
@@ -100,14 +109,27 @@ export default function Navbar() {
             WebkitBackdropFilter: "blur(40px)",
             border: "1px solid rgba(0, 0, 0, 0.08)",
             boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+            fontFamily: "'Geist', sans-serif",
           }}
         >
-          <a href="#demo" className="text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] text-sm py-2.5 px-3 rounded-xl font-medium transition-colors" onClick={() => setMobileOpen(false)}>Demo</a>
+          <a href="#features" className="text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] text-sm py-2.5 px-3 rounded-xl font-medium transition-colors" onClick={() => setMobileOpen(false)}>Features</a>
           <a href="#pricing" className="text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] text-sm py-2.5 px-3 rounded-xl font-medium transition-colors" onClick={() => setMobileOpen(false)}>Pricing</a>
           <hr className="border-gray-100 my-1.5" />
           <div className="flex gap-2 mt-1">
-            <a href="https://app.sckry.com/login" className="flex-1 text-gray-600 hover:text-gray-900 text-sm py-2.5 font-medium text-center rounded-xl transition-colors" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.08)" }}>Log In</a>
-            <a href="https://app.sckry.com/signup" className="flex-1 text-sm text-white bg-[#5885ec] hover:bg-[#4a74d4] transition-colors py-2.5 rounded-xl font-semibold text-center">Sign Up</a>
+            <a
+              href="https://app.sckry.com/login"
+              className="btn-ghost flex-1 text-gray-700 text-sm py-2.5 font-medium text-center rounded-full transition-colors hover:bg-black/5"
+              style={{ border: "1.5px solid rgba(0,0,0,0.15)" }}
+            >
+              Log In
+            </a>
+            <a
+              href="https://app.sckry.com/signup"
+              className="btn-primary flex-1 text-sm text-white py-2.5 rounded-full font-semibold text-center hover:opacity-90"
+              style={{ backgroundColor: "#4A6CF7" }}
+            >
+              Sign Up
+            </a>
           </div>
         </div>
       )}

@@ -179,7 +179,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
       s.zoom = Math.max(MIN_ZOOM, Math.min(fz, MAX_ZOOM))
       const midX = (mnX + mxX) / 2 * s.zoom
       const midY = (mnY + mxY) / 2 * s.zoom
-      s.pan = { x: cw / 2 - midX, y: ch / 2 - midY }
+      s.pan = { x: cw / 2 - midX, y: ch * 0.76 - midY }
     }
 
     // --- Generate fallback avatar (initials) ---
@@ -447,7 +447,8 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
         }
 
         if (isYou && opacity > 0.5) {
-          ctx.save(); ctx.globalAlpha = 0.12
+          const pulse = 0.06 + 0.08 * (0.5 + 0.5 * Math.sin(Date.now() / 900 * Math.PI))
+          ctx.save(); ctx.globalAlpha = pulse
           ctx.beginPath(); ctx.arc(p.x, p.y, radius + 6 * s.zoom, 0, Math.PI * 2)
           ctx.fillStyle = ACCENT; ctx.fill(); ctx.restore()
         }

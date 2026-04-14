@@ -96,10 +96,10 @@ export default function QueryInput({ onSubmit }: Props) {
       className="relative rounded-full px-5 py-4 md:px-7 md:py-6 flex items-center gap-3 md:gap-4 w-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:scale-[1.01] cursor-text"
       style={{
         background: "rgba(255, 255, 255, 0.75)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
+        backdropFilter: "blur(32px)",
+        WebkitBackdropFilter: "blur(32px)",
         border: "1px solid rgba(0,0,0,0.12)",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
       }}
     >
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -112,9 +112,9 @@ export default function QueryInput({ onSubmit }: Props) {
         onChange={e => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="bg-transparent outline-none flex-1 text-base"
+        className="bg-transparent outline-none flex-1 text-lg"
         style={{
-          fontFamily: '"HelveticaNeueLTPro-Bd", "Helvetica Neue", Helvetica, Arial, sans-serif',
+          fontFamily: "'Geist', 'Helvetica Neue', Helvetica, Arial, sans-serif",
           caretColor: "#5885ec",
           color: "rgba(0,0,0,0.85)",
           fontWeight: 400,

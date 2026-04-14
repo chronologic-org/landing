@@ -1,185 +1,191 @@
 "use client"
 
-import { useState } from "react"
+import { useFadeUp } from "@/lib/hooks"
 
 const APP_URL = "https://app.sckry.com"
 
-const freePlan = {
-  name: "Free",
-  price: "$0",
-  subtitle: "Forever free",
-  features: [
-    "5 searches per hour",
-    "Network graph visualization",
-    "Industry clustering view",
-    "Add contacts with photo parsing",
-    "Unlimited Tags",
-    "Unlimited inter-network connections",
-  ],
-  cta: "Get Started",
-  href: APP_URL,
-  highlighted: true,
-}
+const plans = [
+  {
+    id: "individual",
+    name: "Individual",
+    price: "$14",
+    period: "/mo",
+    subtitle: "2-week free trial included",
+    features: [
+      "Unlimited searches",
+      "Network graph visualization",
+      "AI-powered relationship queries",
+      "Contact enrichment",
+      "CSV exports",
+      "Email + calendar sync",
+    ],
+    cta: "Start Free Trial",
+    href: APP_URL,
+    highlighted: false,
+  },
+  {
+    id: "business",
+    name: "Business",
+    price: "$35",
+    period: "/mo",
+    subtitle: "Per seat, billed monthly",
+    features: [
+      "Everything in Individual",
+      "Team-shared network graph",
+      "Collaborative notes & context",
+      "CRM integrations",
+      "Priority support",
+      "Admin controls & audit log",
+    ],
+    cta: "Get Started",
+    href: APP_URL,
+    highlighted: true,
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    subtitle: "Tailored for your organization",
+    features: [
+      "Everything in Business",
+      "White-labeling",
+      "API access",
+      "Custom integrations",
+      "Dedicated success manager",
+      "SLA & compliance support",
+    ],
+    cta: "Contact Us",
+    href: "https://calendly.com/raeedz/chronologic",
+    highlighted: false,
+    external: true,
+  },
+]
 
-const proPlan = {
-  name: "Pro",
-  monthly: { price: "$30", period: "/month", subtitle: "14-day free trial, then billed monthly" },
-  yearly: { price: "$25", period: "/month", subtitle: "14-day free trial, then billed yearly" },
-  features: [
-    "Everything in Free",
-    "25x More Searches",
-    "Improved AI-powered search",
-    "Unlimited CSV downloads",
-    "Advanced network insights",
-  ],
-  cta: "Start Free 14-Day Trial",
-  href: APP_URL,
-  highlighted: true,
-  badge: "POPULAR",
-}
-
-const enterprisePlan = {
-  name: "Enterprise",
-  price: "Custom",
-  subtitle: "Tailored for your team",
-  features: [
-    "Everything in Pro",
-    "Unlimited everything",
-    "Priority support",
-    "White-labeling",
-    "Custom integrations",
-    "API access",
-  ],
-  cta: "Contact Us",
-  href: "https://calendly.com/raeedz/chronologic",
-  external: true,
-  highlighted: false,
-}
-
-function CheckIcon({ color = "#5885ec" }: { color?: string }) {
+function CheckIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mt-0.5 shrink-0 stroke-[#5885ec] transition-colors duration-200 group-hover/feat:stroke-[#4A6CF7]"
+    >
       <polyline points="20 6 9 17 4 12" />
     </svg>
   )
 }
 
+function PlanCard({ plan, fadeRef, fadeStyle }: { plan: typeof plans[0]; fadeRef: React.RefObject<HTMLDivElement | null>; fadeStyle: React.CSSProperties }) {
+  return (
+    <div
+      ref={fadeRef}
+      style={{
+        ...fadeStyle,
+        ...(plan.highlighted
+          ? { border: "2px solid #4A6CF7", boxShadow: "0 0 0 4px rgba(74,108,247,0.07), 0 8px 32px rgba(74,108,247,0.13)" }
+          : {}),
+      }}
+      className={`relative rounded-2xl p-8 text-left flex flex-col h-full ${
+        plan.highlighted ? "bg-white" : "bg-white border border-gray-200 shadow-sm"
+      }`}
+    >
+      {plan.highlighted && (
+        <span
+          className="absolute top-4 right-4 text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase text-[#4A6CF7]"
+          style={{ backgroundColor: "rgba(74,108,247,0.1)", fontFamily: "'Geist', sans-serif" }}
+        >
+          POPULAR
+        </span>
+      )}
+
+      <p
+        className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3"
+        style={{ fontFamily: "'Geist', sans-serif" }}
+      >
+        {plan.name}
+      </p>
+
+      <div className="flex items-end gap-1 mb-1">
+        <span
+          className="text-5xl font-bold tracking-tight"
+          style={{
+            fontFamily: "'Geist', sans-serif",
+            color: plan.highlighted ? "#4A6CF7" : "#111827",
+          }}
+        >
+          {plan.price}
+        </span>
+        {plan.period && (
+          <span className="text-gray-400 text-base mb-1.5" style={{ fontFamily: "'Geist', sans-serif" }}>
+            {plan.period}
+          </span>
+        )}
+      </div>
+
+      <p className="text-sm text-gray-400 mb-8" style={{ fontFamily: "'Geist', sans-serif" }}>
+        {plan.subtitle}
+      </p>
+
+      <ul className="space-y-3.5 mb-8 flex-1">
+        {plan.features.map((feat) => (
+          <li key={feat} className="group/feat flex items-start gap-2.5 text-sm text-gray-600 cursor-default" style={{ fontFamily: "'Geist', sans-serif" }}>
+            <CheckIcon />
+            {feat}
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={plan.href}
+        {...(plan.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className={`block text-center py-3.5 rounded-full font-semibold text-sm tracking-wide transition-all duration-200 ${
+          plan.highlighted
+            ? "btn-primary text-white hover:opacity-90"
+            : "btn-ghost text-gray-700 hover:bg-black/5"
+        }`}
+        style={{
+          fontFamily: "'Geist', sans-serif",
+          ...(plan.highlighted
+            ? { backgroundColor: "#4A6CF7" }
+            : { border: "1.5px solid rgba(0,0,0,0.15)" }),
+        }}
+      >
+        {plan.cta}
+      </a>
+    </div>
+  )
+}
+
 export default function PricingSection() {
-  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly")
-  const pro = billing === "yearly" ? proPlan.yearly : proPlan.monthly
+  const f0 = useFadeUp(0)
+  const f1 = useFadeUp(100)
+  const f2 = useFadeUp(200)
+  const fades = [f0, f1, f2]
 
   return (
-    <section id="pricing" className="bg-gray-50 pt-20 pb-28 px-6">
+    <section id="pricing" className="bg-gray-50 pt-24 pb-28 px-6">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+        <h2
+          className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight"
+          style={{ fontFamily: "'Unbounded', sans-serif" }}
+        >
           Simple, transparent pricing
         </h2>
-        <p className="text-gray-500 mb-14 max-w-lg mx-auto text-base">
-          Start free and scale as your network grows.
+        <p
+          className="text-gray-500 mb-14 max-w-lg mx-auto text-2xl font-light"
+          style={{ fontFamily: "'Geist', sans-serif" }}
+        >
+          Start with a 2-week free trial. No credit card required.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-          {/* Free */}
-          <div className="rounded-2xl p-8 text-left flex flex-col bg-white border border-gray-200 shadow-sm h-full">
-            <h3 className="text-lg font-bold text-gray-900 tracking-tight">{freePlan.name}</h3>
-            <div className="mt-2 mb-1">
-              <span className="text-4xl font-bold text-gray-900 tracking-tight">{freePlan.price}</span>
-            </div>
-            <p className="text-sm text-gray-400 mb-8">{freePlan.subtitle}</p>
-            <ul className="space-y-4 mb-8 flex-1">
-              {freePlan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-gray-600">
-                  <CheckIcon />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={freePlan.href}
-              className="block text-center py-3 rounded-xl font-bold text-sm bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors tracking-wide"
-            >
-              {freePlan.cta}
-            </a>
-          </div>
-
-          {/* Pro */}
-          <div className="relative rounded-2xl p-8 text-left flex flex-col bg-[#5885ec] text-white shadow-xl h-full">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xl">👑</span>
-              <h3 className="text-lg font-bold tracking-tight">Pro</h3>
-            </div>
-            <span className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase flex items-center gap-1">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-              POPULAR
-            </span>
-            <div className="mt-2 mb-1">
-              <span className="text-4xl font-bold tracking-tight">{pro.price}</span>
-              <span className="text-white/70 text-sm">{pro.period}</span>
-            </div>
-            <p className="text-sm text-white/60 mb-5">{pro.subtitle}</p>
-
-            {/* Billing toggle */}
-            <div className="flex items-center gap-1 mb-6 bg-white/15 rounded-full p-1 w-fit">
-              <button
-                onClick={() => setBilling("monthly")}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${billing === "monthly" ? "bg-white text-[#5885ec]" : "text-white/70 hover:text-white"}`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setBilling("yearly")}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${billing === "yearly" ? "bg-white text-[#5885ec]" : "text-white/70 hover:text-white"}`}
-              >
-                Yearly
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${billing === "yearly" ? "bg-green-100 text-green-700" : "bg-green-500/30 text-green-200"}`}>
-                  Save 17%
-                </span>
-              </button>
-            </div>
-
-            <ul className="space-y-4 mb-8 flex-1">
-              {proPlan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-white/90">
-                  <CheckIcon color="#ffffff" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={proPlan.href}
-              className="block text-center py-3.5 rounded-xl font-bold text-sm bg-white text-[#5885ec] hover:bg-gray-100 transition-colors tracking-wide"
-            >
-              {proPlan.cta}
-            </a>
-          </div>
-
-          {/* Enterprise */}
-          <div className="rounded-2xl p-8 text-left flex flex-col bg-white border border-gray-200 shadow-sm h-full">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xl">🏢</span>
-              <h3 className="text-lg font-bold text-gray-900 tracking-tight">{enterprisePlan.name}</h3>
-            </div>
-            <div className="mt-2 mb-1">
-              <span className="text-4xl font-bold text-gray-900 tracking-tight">{enterprisePlan.price}</span>
-            </div>
-            <p className="text-sm text-gray-400 mb-8">{enterprisePlan.subtitle}</p>
-            <ul className="space-y-4 mb-8 flex-1">
-              {enterprisePlan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-gray-600">
-                  <CheckIcon />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={enterprisePlan.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-center py-3 rounded-xl font-bold text-sm bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors tracking-wide"
-            >
-              {enterprisePlan.cta}
-            </a>
-          </div>
+        <div className="grid md:grid-cols-3 gap-6 items-start">
+          {plans.map((plan, i) => (
+            <PlanCard key={plan.id} plan={plan} fadeRef={fades[i].ref} fadeStyle={fades[i].style} />
+          ))}
         </div>
       </div>
     </section>
