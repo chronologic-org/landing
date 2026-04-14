@@ -25,8 +25,8 @@ const features = [
 
 function VennIcon({ colorA, colorB }: { colorA: string; colorB: string }) {
   return (
-    <div className="venn-icon flex items-center justify-center" style={{ width: 56, height: 40 }}>
-      <svg width="56" height="40" viewBox="0 0 56 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: "visible" }}>
+    <div className="venn-icon flex items-center justify-center" style={{ width: 84, height: 60 }}>
+      <svg width="84" height="60" viewBox="0 0 56 40" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: "visible" }}>
         <circle
           className="venn-l"
           cx="20"
@@ -57,7 +57,7 @@ export default function FeaturesSection() {
   const fadeUps = [f0, f1, f2]
 
   return (
-    <section id="features" className="bg-gray-100 pt-24 pb-28 px-6">
+    <section id="features" className="bg-gray-100 pt-24 pb-28 px-6 border-b border-gray-200">
       <div className="max-w-5xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6 md:gap-14">
           {features.map((f, i) => {
@@ -74,7 +74,7 @@ export default function FeaturesSection() {
                   className="mt-6 text-gray-900 font-bold leading-tight tracking-tight"
                   style={{
                     fontFamily: "'Unbounded', sans-serif",
-                    fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                    fontSize: "clamp(2rem, 3.5vw, 2.25rem)",
                   }}
                 >
                   {f.headline}

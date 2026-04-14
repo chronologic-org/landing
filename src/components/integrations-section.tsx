@@ -25,7 +25,7 @@ const integrations = [
   {
     id: "granola",
     name: "Granola",
-    bg: "#C5D62C",
+    bg: "#B5C528",
     imgSrc: "/logos/granola.png",
   },
   {
@@ -100,13 +100,23 @@ function LogoCard({ integration, delay }: { integration: typeof integrations[0];
         style={{ backgroundColor: integration.bg }}
       >
         {"imgSrc" in integration && integration.imgSrc ? (
-          <Image
-            src={integration.imgSrc}
-            alt={integration.name}
-            width={integration.id === "granola" ? 58 : 52}
-            height={integration.id === "granola" ? 58 : 52}
-            className="object-contain"
-          />
+          integration.id === "granola" ? (
+            <Image
+              src={integration.imgSrc}
+              alt={integration.name}
+              width={72}
+              height={72}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <Image
+              src={integration.imgSrc}
+              alt={integration.name}
+              width={52}
+              height={52}
+              className="object-contain"
+            />
+          )
         ) : (
           (integration as { icon?: React.ReactNode }).icon
         )}
@@ -137,10 +147,10 @@ export default function IntegrationsSection() {
               Integrate with your current workflow.
             </h2>
             <p
-              className="text-gray-500 text-base font-light leading-relaxed max-w-sm"
+              className="text-gray-500 text-[20px] font-light leading-relaxed max-w-sm"
               style={{ fontFamily: "'Geist', sans-serif" }}
             >
-              Sckry automatically picks up signals from the tools you already use — surfacing exactly who you need and how to reach them, without changing how you work.
+              Sckry automatically picks up signals from the tools you already use, surfacing exactly who you need and how to reach them, without changing how you work.
             </p>
           </div>
 

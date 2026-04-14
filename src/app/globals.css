@@ -139,18 +139,29 @@ input::placeholder {
   animation: canvasFadeIn 2000ms cubic-bezier(0.23, 1, 0.32, 1) 400ms both;
 }
 
-/* ── Venn diagram icon hover ─────────────────────────────── */
+/* ── Venn diagram icon — crossing animation ──────────────── */
 
-.venn-icon .venn-l,
-.venn-icon .venn-r {
-  transition: transform 250ms cubic-bezier(0.23, 1, 0.32, 1);
+@keyframes venn-cross-l {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(16px); }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .venn-icon:hover .venn-l {
-    transform: translateX(-4px);
-  }
-  .venn-icon:hover .venn-r {
-    transform: translateX(4px);
+@keyframes venn-cross-r {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(-16px); }
+}
+
+.venn-icon .venn-l {
+  animation: venn-cross-l 2.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+.venn-icon .venn-r {
+  animation: venn-cross-r 2.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .venn-icon .venn-l,
+  .venn-icon .venn-r {
+    animation: none;
   }
 }
