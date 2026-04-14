@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="animate-nav-enter fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-3xl rounded-full px-6 py-3 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+      className="animate-nav-enter fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[78%] max-w-3xl rounded-full px-6 py-3 flex items-center transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
       style={{
         background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(32px)",
@@ -17,27 +17,10 @@ export default function Navbar() {
       }}
     >
       {/* Logo */}
-      <a href="#" className="flex items-center gap-2.5 shrink-0">
-        <svg width="28" height="28" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clipPath="url(#nav-clip)">
-            <path d="M96 96L122.93 3.85L140.64 11.01Z" fill="#4a90e2" />
-            <path d="M96 96L85.61 0.56L104.72 0.4Z" fill="#4a90e2" />
-            <path d="M96 96L0.56 106.39L0.4 87.28Z" fill="#4a90e2" />
-            <path d="M96 96L11.8 142.12L4.34 124.53Z" fill="#4a90e2" />
-            <path d="M96 96L35.86 170.83L22.23 157.44Z" fill="#4a90e2" />
-            <path d="M96 96L69.07 188.15L51.36 180.99Z" fill="#4a90e2" />
-            <path d="M96 96L106.39 191.44L87.28 191.6Z" fill="#4a90e2" />
-            <path d="M96 96L191.44 85.61L191.6 104.72Z" fill="#4a90e2" />
-            <path d="M96 96L180.2 49.88L187.66 67.47Z" fill="#4a90e2" />
-            <path d="M96 96L156.14 21.17L169.77 34.56Z" fill="#4a90e2" />
-          </g>
-          <defs>
-            <clipPath id="nav-clip"><rect width="192" height="192" /></clipPath>
-          </defs>
-        </svg>
+      <a href="#" className="flex items-center shrink-0">
         <span
-          className="text-gray-900 font-bold text-lg leading-none translate-y-[0.5px]"
-          style={{ fontFamily: "'Unbounded', sans-serif" }}
+          className="text-gray-900 font-bold leading-none"
+          style={{ fontFamily: "'Unbounded', sans-serif", fontSize: "1.4375rem" }}
         >
           Sckry
         </span>

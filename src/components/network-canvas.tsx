@@ -34,6 +34,7 @@ interface NodeData {
 
 export interface NetworkCanvasHandle {
   simulateQuery: (query: string) => void
+  undim: () => void
 }
 
 interface Props {
@@ -60,6 +61,7 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
     pan: { x: 0, y: 0 },
     lastPinchDist: null as number | null,
     centerLabel: centerNodeLabel,
+    dimmed: true,
   })
 
   // Keep label in sync
@@ -101,6 +103,9 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
         }
       }
       s.searchMatchedIds = matched
+    },
+    undim() {
+      stateRef.current.dimmed = false
     },
   }))
 
@@ -425,18 +430,18 @@ const NetworkCanvas = forwardRef<NetworkCanvasHandle, Props>(function NetworkCan
 
         const isSearchMatch = searchIds.size > 0 && searchIds.has(node.id)
 
-        let targetOpacity = 1
+        let targetOpacity = (s.dimmed && !activeNode) ? FADE_MIN : 1
         let borderColor = "#9ca3af"
         let borderWidth = isYou ? 2.5 : 1
 
         if (isSearchMatch) { borderColor = ACCENT; borderWidth = 2.5 }
         if (activeNode) {
-          if (isActive) { borderColor = ACCENT; borderWidth = isYou ? 3 : 2 }
+          if (isActive) { targetOpacity = 1; borderColor = ACCENT; borderWidth = isYou ? 3 : 2 }
           else { targetOpacity = FADE_MIN; borderColor = "rgba(0,0,0,0.1)"; borderWidth = isYou ? 1 : 0.5 }
         }
         if (isSearchMatch) { targetOpacity = 1; borderColor = ACCENT; borderWidth = 2.5 }
 
-        const prevOpacity = s.nodeOpacity.get(node.id) ?? 1
+        const prevOpacity = s.nodeOpacity.get(node.id) ?? (s.dimmed ? FADE_MIN : 1)
         const opacity = prevOpacity + (targetOpacity - prevOpacity) * FADE_LERP
         s.nodeOpacity.set(node.id, opacity)
 

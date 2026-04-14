@@ -10,49 +10,12 @@ export default function Footer() {
   const cols = [c0, c1, c2, c3]
 
   return (
-    <footer className="relative bg-[#0D1117] text-white pt-20 pb-10 px-6 overflow-hidden">
-      {/* Large faded watermark */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none select-none flex items-end justify-center overflow-hidden"
-        aria-hidden="true"
-      >
-        <span
-          className="font-bold leading-none"
-          style={{
-            fontFamily: "'Unbounded', sans-serif",
-            fontSize: "clamp(6rem, 16vw, 14rem)",
-            color: "white",
-            opacity: 0.06,
-            letterSpacing: "-0.04em",
-            userSelect: "none",
-          }}
-        >
-          Sckry
-        </span>
-      </div>
-
+    <footer className="relative overflow-hidden bg-[#0D1117] text-white pt-20 pb-10 px-6">
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           {/* Col 0: Logo + tagline + social */}
           <div ref={cols[0].ref} style={cols[0].style} className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-3">
-              <svg width="24" height="24" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#footer-clip)">
-                  <path d="M96 96L122.93 3.85L140.64 11.01Z" fill="#4a90e2" />
-                  <path d="M96 96L85.61 0.56L104.72 0.4Z" fill="#4a90e2" />
-                  <path d="M96 96L0.56 106.39L0.4 87.28Z" fill="#4a90e2" />
-                  <path d="M96 96L11.8 142.12L4.34 124.53Z" fill="#4a90e2" />
-                  <path d="M96 96L35.86 170.83L22.23 157.44Z" fill="#4a90e2" />
-                  <path d="M96 96L69.07 188.15L51.36 180.99Z" fill="#4a90e2" />
-                  <path d="M96 96L106.39 191.44L87.28 191.6Z" fill="#4a90e2" />
-                  <path d="M96 96L191.44 85.61L191.6 104.72Z" fill="#4a90e2" />
-                  <path d="M96 96L180.2 49.88L187.66 67.47Z" fill="#4a90e2" />
-                  <path d="M96 96L156.14 21.17L169.77 34.56Z" fill="#4a90e2" />
-                </g>
-                <defs>
-                  <clipPath id="footer-clip"><rect width="192" height="192" /></clipPath>
-                </defs>
-              </svg>
               <span
                 className="font-bold text-lg text-white leading-none"
                 style={{ fontFamily: "'Unbounded', sans-serif" }}
@@ -151,6 +114,26 @@ export default function Footer() {
         >
           &copy; {new Date().getFullYear()} Sckry. All rights reserved.
         </div>
+      </div>
+
+      {/* Watermark */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none select-none flex items-end justify-center overflow-hidden"
+        aria-hidden="true"
+      >
+        <span
+          className="font-bold leading-none"
+          style={{
+            fontFamily: "'Unbounded', sans-serif",
+            fontSize: "clamp(6rem, 16vw, 14rem)",
+            color: "white",
+            opacity: 0.06,
+            letterSpacing: "-0.04em",
+            userSelect: "none",
+          }}
+        >
+          Sckry
+        </span>
       </div>
     </footer>
   )

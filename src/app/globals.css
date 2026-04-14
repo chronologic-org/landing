@@ -151,11 +151,11 @@ input::placeholder {
   50%       { transform: translateX(-16px); }
 }
 
-.venn-icon .venn-l {
+.venn-icon:hover .venn-l {
   animation: venn-cross-l 2.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
 }
 
-.venn-icon .venn-r {
+.venn-icon:hover .venn-r {
   animation: venn-cross-r 2.8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
 }
 

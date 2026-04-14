@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useCallback } from "react"
+import { useRef, useState, useCallback, useEffect } from "react"
 import NetworkCanvas from "./network-canvas"
 import type { NetworkCanvasHandle } from "./network-canvas"
 import AnimatedRoleText from "./animated-role-text"
@@ -18,6 +18,18 @@ export default function HeroSection() {
     canvasRef.current?.simulateQuery(query)
   }, [])
 
+  const handleUndim = useCallback(() => {
+    canvasRef.current?.undim()
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 10) canvasRef.current?.undim()
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
     <section className="relative w-full h-screen overflow-hidden bg-gray-100">
       {/* Network graph canvas — fades in on load */}
@@ -30,26 +42,30 @@ export default function HeroSection() {
         className="absolute inset-x-0 z-20 text-center pointer-events-none px-6"
         style={{ top: "23%" }}
       >
-        <h1
-          className="hero-headline text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 tracking-tight leading-none mb-4"
-          style={{ fontFamily: "'Unbounded', sans-serif" }}
-        >
-          Your network,<br />searchable.
-        </h1>
-        <p
-          className="hero-subtext text-lg md:text-xl text-gray-900 font-light max-w-md mx-auto"
-          style={{ fontFamily: "'Geist', sans-serif" }}
-        >
-          AI-powered relationship intelligence for founders,<br className="hidden md:block" /> executives, builders, and operators.
-        </p>
+        <div style={{ width: "fit-content", margin: "0 auto", textAlign: "center" }}>
+          <h1
+            className="hero-headline text-4xl md:text-5xl lg:text-6xl font-normal text-gray-900 tracking-tight leading-tight"
+            style={{ fontFamily: "'Unbounded', sans-serif" }}
+          >
+            Ask your network anything.
+            <br />
+            Get answers instantly.
+          </h1>
+          <p
+            className="hero-subtext font-light block w-full"
+            style={{ fontFamily: "'Geist', sans-serif", fontSize: "clamp(1.35rem, 2.1vw, 1.65rem)", marginTop: "4vh", color: "#111111" }}
+          >
+            Sckry remembers every contact and turns them into opportunities.
+          </p>
+        </div>
       </div>
 
       {/* Role text cycler */}
       <AnimatedRoleText onRoleChange={handleRoleChange} />
 
       {/* Query input */}
-      <div className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4">
-        <QueryInput onSubmit={handleQuery} />
+      <div className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-30 w-[78%] max-w-3xl">
+        <QueryInput onSubmit={handleQuery} onFocus={handleUndim} />
       </div>
 
       {/* Bottom fade */}

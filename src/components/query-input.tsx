@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 
 interface Props {
   onSubmit: (query: string) => void
+  onFocus?: () => void
 }
 
 const queries = [
@@ -14,7 +15,7 @@ const queries = [
   "Introduce me to someone in healthcare",
 ]
 
-export default function QueryInput({ onSubmit }: Props) {
+export default function QueryInput({ onSubmit, onFocus }: Props) {
   const [value, setValue] = useState("")
   const [placeholder, setPlaceholder] = useState("|")
   const cancelledRef = useRef(false)
@@ -110,6 +111,7 @@ export default function QueryInput({ onSubmit }: Props) {
         type="text"
         value={value}
         onChange={e => setValue(e.target.value)}
+        onFocus={onFocus}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className="bg-transparent outline-none flex-1 text-lg"

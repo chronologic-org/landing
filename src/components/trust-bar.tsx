@@ -4,23 +4,27 @@ import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
 const companies = [
-  { id: "google", name: "Google", src: "/logos/google.png", w: 28, h: 28 },
-  { id: "amazon", name: "Amazon", src: "/logos/amazon.png", w: 42, h: 28 },
-  { id: "microsoft", name: "Microsoft", src: "/logos/microsoft.png", w: 28, h: 28 },
-  { id: "goldman", name: "Goldman Sachs", src: "/logos/goldman.png", w: 36, h: 36 },
+  { id: "google", name: "Google", src: "/logos/google.png", w: 28, h: 28, circleSize: 40 },
+  { id: "amazon", name: "Amazon", src: "/logos/amazon.png", w: 38, h: 24, circleSize: 40 },
+  { id: "microsoft", name: "Microsoft", src: "/logos/microsoft.png", w: 28, h: 28, circleSize: 40 },
+  { id: "goldman", name: "Goldman Sachs", src: "/logos/goldman.png", w: 38, h: 38, circleSize: 40 },
 ]
+
+const FALLBACK_BASE = 119_777
 
 export default function TrustBar() {
   const [contactCount, setContactCount] = useState(0)
   const [count, setCount] = useState(0)
   const [started, setStarted] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const ref = useRef<HTMLElement>(null)
+  const liveTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     fetch("/api/contacts/count")
       .then((r) => r.json())
-      .then((data) => setContactCount(data.count ?? 0))
-      .catch(() => setContactCount(0))
+      .then((data) => { setContactCount(data.count ?? 0); setLoaded(true) })
+      .catch(() => { setContactCount(0); setLoaded(true) })
   }, [])
 
   useEffect(() => {
@@ -40,33 +44,50 @@ export default function TrustBar() {
   }, [started])
 
   useEffect(() => {
-    if (!started || contactCount <= 0) return
+    if (!started || !loaded) return
+
+    const target = contactCount > 0 ? contactCount : FALLBACK_BASE
+    const startValue = Math.max(target - 200, 0)
+
+    setCount(startValue)
+
+    // Phase 1: rapid count-up to target over ~2s
     const duration = 2000
     const steps = 60
-    const increment = contactCount / steps
-    let current = 0
-    const timer = setInterval(() => {
+    const increment = (target - startValue) / steps
+    let current = startValue
+
+    const burstTimer = setInterval(() => {
       current += increment
-      if (current >= contactCount) {
-        setCount(contactCount)
-        clearInterval(timer)
+      if (current >= target) {
+        setCount(target)
+        clearInterval(burstTimer)
+
+        // Phase 2: slow live increment ~2-3/second
+        liveTimerRef.current = setInterval(() => {
+          setCount((c) => c + (Math.random() < 0.5 ? 2 : 3))
+        }, 400)
       } else {
         setCount(Math.floor(current))
       }
     }, duration / steps)
-    return () => clearInterval(timer)
-  }, [started, contactCount])
+
+    return () => {
+      clearInterval(burstTimer)
+      if (liveTimerRef.current) clearInterval(liveTimerRef.current)
+    }
+  }, [started, loaded, contactCount])
 
   return (
     <section ref={ref} className="bg-gray-100 py-10 px-6 border-t border-b border-gray-200">
       <div className="max-w-4xl mx-auto flex items-center justify-center">
         <div className="flex items-center gap-4">
-          <div className="flex -space-x-2">
+          <div className="flex -space-x-2 items-center">
             {companies.map((co, i) => (
               <div
                 key={co.id}
-                className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center"
-                style={{ zIndex: 5 - i }}
+                className="rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center"
+                style={{ zIndex: 5 - i, width: co.circleSize, height: co.circleSize }}
                 title={co.name}
               >
                 <Image src={co.src} alt={co.name} width={co.w} height={co.h} className="object-contain" />
@@ -87,16 +108,10 @@ export default function TrustBar() {
             className="text-gray-700 text-base md:text-lg tracking-tight"
             style={{ fontFamily: "'Unbounded', sans-serif" }}
           >
-            {contactCount > 0 ? (
-              <>
-                <span className="font-bold text-gray-900 tabular-nums">
-                  {count.toLocaleString()}
-                </span>
-                {" "}contacts entrusted to Sckry
-              </>
-            ) : (
-              "Trusted by teams everywhere"
-            )}
+            <span className="font-bold text-gray-900 tabular-nums">
+              {count > 0 ? count.toLocaleString() : <span className="opacity-0 select-none">—</span>}
+            </span>
+            {count > 0 && " contacts entrusted to Sckry"}
           </p>
         </div>
       </div>
